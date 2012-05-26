@@ -13,8 +13,8 @@ description: |
   As a standalone charm, this can be useful when experimenting
   with different environments/providers.
 maintainer: Mark Mims <mark.mims@canonical.com>
-#subordinate: true
-#requires:
-#  local-info:
-#    interface: juju-info
-#    scope: container
+subordinate: true
+requires:
+  local-info:
+    interface: juju-info
+    scope: container
