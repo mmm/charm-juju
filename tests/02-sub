@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "make sure the metadata is set up for subordinate"
+echo "i.e., the subordinate and requires sections are active... not commented out"
+exit 0
+
+
+juju bootstrap
+juju deploy --repository ~/charms local:byobu-classroom juju-classroom
+juju deploy --repository ~/charms local:juju juju-client
+juju add-relation juju-classroom juju-client
+

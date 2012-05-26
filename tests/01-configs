@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "make sure metadata.yaml is set for standalone"
+echo "i.e., comment out the subordinate and requires sections"
+exit 0
+
 juju bootstrap
 
 juju deploy --repository ~/charms local:juju juju-bare
