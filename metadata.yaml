@@ -1,18 +1,15 @@
-name: charmtester
-summary: Jenkins Continuous Integration server
+name: juju
+summary: juju client
 description: |
-  Jenkins is a Continous Integration server supporting
-  flexible continous integration and deployment methodologies
-  and more.
-  .
-  This formula provides the Jenkins master instance in a 
-  deployment
-  .
-  Forked to provide LXC environments and charm-tools
-provides:
-  website:
-    interface: http
+  A charm to manage a juju client.  Use this to run the juju cli
+  against environments passed in as config.
+
+  As a subordinate, this can enable a juju cli for any service.
+  This is typically useful as a subordinate to jenkins-slave for
+  charmtesting or to turn byobu-classroom into juju-classroom.
+maintainer: Mark Mims <mark.mims@canonical.com>
+subordinate: true
 requires:
-  master:
-    interface: jenkins-slave
-    optional: true
+  local-info:
+    interface: juju-info
+    scope: container

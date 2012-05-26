@@ -1,25 +1,7 @@
-charmtester:
-  release: trunk
-  password: mypassword
-  plugins-check-certificate: False
-  plugins: greenballs javadoc maven-plugin build-publisher instant-messaging ircbot
-  #build_publisher_enabled: true
-  build_publisher_url: https://my.publish.address/
-  build_publisher_username: myuser
-  build_publisher_password: mypass
-  #ircbot_enabled: True
-  ircbot_server: chat.freenode.net
-  ircbot_port: "6697"
-  ircbot_ssl: True
-  ircbot_nick: charmtester
-  ircbot_password: mypass
-  ircbot_channel: "##mychan"
-  #
+juju:
   tmpfs_size: 5g
-  #
-  #charms_to_test: all
-  #blacklisted_charms: nova-compute glance
-  tester_environment: |
+  #juju_origin:
+  juju_environment: |
     default: local
     environments:
       local:

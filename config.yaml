@@ -1,114 +1,13 @@
 options:
-  tools:
-    type: string
-    default: git gcc make bzr
-    description: Tooling to deploy alongside jenkins
-  release:
-    type: string
-    default: distro
-    description: |
-     Source of Jenkins, options include:
-     - distro: only use the Ubuntu distribution - this
-       is the default and only works on Oneiric.
-     - lts: use the most recent Jenkins LTS release.
-     - trunk: use the most recent Jenkins release.
-  username:
-    type: string
-    default: admin
-    description: Admin user username - used to manage
-      slave nodes so please don't change in Jenkins.
-  password:
-    type: string
-    default: admin
-    description: Admin user password - used to manage
-      slave nodes so please don't change in Jenkins.
-  plugins:
-    type: string
-    default: ""
-    description: Space separated list of plugins to install
-  plugins-site:
-    type: string
-    default: "https://updates.jenkins-ci.org/"
-    description: Site to download plugin .hpi files from.
-  plugins-check-certificate:
-    type: boolean
-    default: True
-    description: Set to no to allow downloading from an invalid https site.
-  remove-unlisted-plugins:
-    type: string
-    default: "no"
-    description: |
-      Set this to yes to remove any plugins not listed in plugins
-      from the installation.
-  tmpfs_size:
-    type: string
-    default: ""
-    description: size of tmpfs partition to use for lxc... formatted like "5g"
-  test_series:
-    type: string
-    default: "oneiric"
-    description: series to test
-  test_charm:
-    type: string
-    default: ""
-    description: kick off a test for this charm
-  add_charm:
-    type: string
-    default: ""
-    description: create a new job for this launchpad branch
-  build_publisher_enabled:
-    type: string
-    default: ""
-    description: enable build publisher plugin
-  build_publisher_url:
-    type: string
-    default: ""
-    description: site to publish build results
-  build_publisher_username:
-    type: string
-    default: ""
-    description: username to publish build results
-  build_publisher_password:
-    type: string
-    default: ""
-    description: password to publish build results
-  ircbot_enabled:
-    type: string
-    default: ""
-    description: enable ircbot plugin
-  ircbot_server:
-    type: string
-    default: ""
-    description: channel to publish build results
-  ircbot_port:
-    type: string
-    default: ""
-    description: channel to publish build results
-  ircbot_ssl:
-    type: boolean
-    default: True
-    description: channel to publish build results
-  ircbot_nick:
-    type: string
-    default: ""
-    description: channel to publish build results
-  ircbot_password:
-    type: string
-    default: ""
-    description: channel to publish build results
-  ircbot_channel:
-    type: string
-    default: ""
-    description: channel to publish build results
-  ircbot_channel_password:
-    type: string
-    default: ""
-    description: channel to publish build results
-  tester_environment:
-    type: string
-    default: ""
-    description: juju environment to use for testing charms
   precache_lxc:
     type: string
     default: ""
     description: should we precache lxc?  yes or empty
+  tmpfs_size:
+    type: string
+    default: ""
+    description: size of tmpfs partition to use for lxc... formatted like "5g"
+  juju_environment:
+    type: string
+    default: ""
+    description: juju environment to use for testing charms

@@ -1,6 +1,0 @@
-nova-compute
-nova-cloud-controller
-swift-proxy
-swift-storage
-glance
-munin

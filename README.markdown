@@ -1,113 +1,56 @@
 
-# Note
+# juju charm
 
-This needs to be reconciled against
+A charm to manage a juju client.  Use this to run the juju cli
+against environments passed in as config.
 
-    http://bazaar.launchpad.net/~clint-fewbar/juju/charm-tests-spec/view/head:/source/charm-tests.rst
+As a subordinate, this can enable a juju cli for any service.
+This is typically useful as a subordinate to jenkins-slave for
+charmtesting or to turn byobu-classroom into juju-classroom.
 
+# Examples
 
-# The goal
+## Simple juju-classroom
 
-Publish charm tests organized around:
+    laptop$ juju bootstrap
+    laptop$ juju deploy byobu-classroom juju-classroom
+    laptop$ juju deploy juju juju-client
+    laptop$ juju add-relation juju-classroom juju-client
 
-  - series
-  - provider
-  - charm
-  - other tags? (i.e., "main")
+    laptop$ juju ssh juju-classroom/0
+    <ec2-addr>$ echo "Ok, folks... now watch me demo juju using the local provider"
+    <ec2-addr>$ juju bootstrap
+    <ec2-addr>$ juju deploy mysql
+    <ec2-addr>$ juju status
 
-for each charm in the official charm store.
+## juju-classroom using other environments
 
-For each configured test environment (specifying {provider, series}) and each charm in the official charm store, the charm tester will:
+Write the following to ~/juju-classroom-ec2.yaml
 
-  - run charm-install-tests (is this still necessary?)
-  - run charm-graph-tests
-  - run charm unit-tests 
+    juju-client:
+      juju_environment: |
+        default: ec2
+        environments:
+          local:
+            type: local
+            data-dir: /var/lib/jenkins/.juju/local-precise
+            admin-secret: 0abcdefghijklmnopqrstuvwxyz123456789
+            control-bucket: local-precise-bucket
+            default-series: precise
+          ec2:
+            type: ec2
+            admin-secret: <admin-secret-hash>
+            control-bucket: <juju-classroom-bucketname>
+            access-key: <ec2 access key>
+            secret-key: <ec2 secret key>
+            default-series: precise
 
+and then change the simple deployment above to use this config:
 
-# Components
+    laptop$ juju deploy --config ~/juju-classroom-ec2.yaml juju juju-client
 
-- Jenkins
-  - publish results
-      - #juju
-      - jenkins.qa.ubuntu.com
-  - `API_TOKEN` to programmatically drive charmtesting
+now the service's juju cli will run against the new default environment
 
-- charmtester (separate from and subordinate to jenkins... eventually)
-  - creates(/removes?) jobs based on the current charm list
-    one job per charm... `$series-$provider-charm-$charm_name`
-  - each job
-      - runs charm-graph-tests
-      - runs charm unit-tests 
-  - configured with environment(s) for this slave to test against
-      - accts
-      - providers
-      - series
-  - updates test components regularly(?)... juju, charms, plans
-      - currently only on upgrade: (needs to be lighter-weight)
-          - juju cli version
-          - wipe/rebuild the master charmset regularly (this is used only to generate dependency graphs)
-          - wipe/rebuild the lxc cache regularly for local provider
-          - destroy and rebootstrap regularly to remove stale state (?)
-
-- charm test runner (curl with an `API_TOKEN` wrapped in a cronjob)
-
-# Tests
-
-- charm-install-test
-    - pulls the charm
-    - bootstraps
-    - spins up the charm and watch status for `started`
-
-- charm-graph-test
-    - pulls a master charmset
-    - generate test plans based on dep graphs (graph-test is the set of test plans for that charm)
-    - job
-        - pulls the charms for each run (separate from graph generation)
-        - bootstraps
-        - spins up each plan in the graph-test, watching for success/fail of each plan
-
-- charm-unit-test
-    - just hit `$CHARM_DIR/tests/test` and run screaming?
-    - maybe sandbox this a little
-    - ?
 
 # TODO
-
-- update charmrunner to work against other providers (currently local-only)
-
-- persist job stuff between instances (address backups _and_ availability)
-    - S3?
-
-- charmtester needs to:
-    - use lighter-weight updates for test components
-    - trigger by commit-hooks
-    - only re-run charms that have diffs
-    - handle deletions from the charm list
-
-- turn charmrunner into juju-jitsu plugins
-
-- jenkins openid plugin (?)
-
-- jenkins slaves working
-
-- maybe use splice to simplify the charmtester charm itself... need storage, charm testing, jenkins, etc
-
-- use lp tools... is there a way to just watch the ppa?
-
-
-# misc
-
-- building
-
-    Use the following URL to trigger build remotely: $JENKINS_URL/job/$job_name/build?token=TOKEN or /buildWithParameters?token=TOKEN
-    Optionally append &cause=Cause+Text to provide text that will be included in the recorded build cause.
-    http://charmtests.markmims.com/job/jenkins/build?token=TOKEN
-
-- notifications / publication
-
-  - watch status directly
-
-    $JENKINS_URL/job/$job_name/api/json
-    
-    grab the field "color" it's either "red" or "blue"
 
