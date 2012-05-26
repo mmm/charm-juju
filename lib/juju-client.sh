@@ -30,6 +30,7 @@ update_charms_repo() {
     local juju_environments_file=$home/.juju/environments.yaml
     for release in `releases`; do
       mkdir -p $home/charms/$release
+      chown -Rf $user:nogroup $home
       sudo -HEsu $user charm getall $home/charms/$release
     done
   fi
