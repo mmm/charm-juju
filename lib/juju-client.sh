@@ -22,13 +22,16 @@ install_juju_environment_tools() {
 update_charms_repo() {
   local user=$1
   local home=$2
-
-  local juju_environments_file=$home/.juju/environments.yaml
-  for release in `releases`; do
-    mkdir -p $home/charms/$release
-    chown -Rf $user:nogroup $home
-    sudo -HEsu $user charm getall $home/charms/$release
-  done
+  
+  local local_charms=$(config-get local_charms)
+  if [ -n "$local_charms" ]; then
+    local juju_environments_file=$home/.juju/environments.yaml
+    for release in `releases`; do
+      mkdir -p $home/charms/$release
+      chown -Rf $user:nogroup $home
+      sudo -HEsu $user charm getall $home/charms/$release
+    done
+  fi
 }
 
 configure_juju_environment() {

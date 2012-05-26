@@ -1,6 +1,5 @@
 juju:
   tmpfs_size: 5g
-  #juju_origin:
   juju_environment: |
     default: local
     environments:

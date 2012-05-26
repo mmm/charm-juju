@@ -1,13 +1,17 @@
 options:
+  local_charms:
+    type: string
+    default: ""
+    description: nonempty means _all_ charms will be checked out locally under ~/charms.  Note, this option causes startup to take several minutes while all charms are cloned from launchpad.
   precache_lxc:
     type: string
     default: ""
-    description: should we precache lxc?  yes or empty
+    description: should we precache lxc?  non-empty is yes.  Note, this option causes startup to take several minutes while the first lxc ubuntu image is downloaded/built.
   tmpfs_size:
     type: string
     default: ""
-    description: size of tmpfs partition to use for lxc... formatted like "5g"
+    description: size of tmpfs partition to use for lxc... formatted like "5g".  empty means no tmpfs is used.
   juju_environment:
     type: string
     default: ""
-    description: juju environment to use for testing charms
+    description: juju environment to use for testing charms.  empty defaults to local provider only.
