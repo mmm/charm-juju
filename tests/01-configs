@@ -1,0 +1,8 @@
+#!/bin/bash
+
+juju bootstrap
+
+juju deploy --repository ~/charms local:juju juju-bare
+juju deploy --repository ~/charms --config juju-repo.yaml local:juju juju-repo
+juju deploy --repository ~/charms --config juju-repo-precached.yaml local:juju juju-repo-precached
+

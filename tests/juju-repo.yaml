@@ -1,0 +1,3 @@
+juju-repo:
+  local_charms: all
+  tmpfs_size: 5g

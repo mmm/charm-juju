@@ -1,0 +1,4 @@
+juju-repo-precached:
+  local_charms: all
+  precache_lxc: unhuh
+  tmpfs_size: 5g
