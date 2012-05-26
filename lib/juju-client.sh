@@ -15,8 +15,10 @@ install_juju_packages() {
 install_juju_environment_tools() {
   local user=$1
   local home=$2
+
   mkdir -p -m755 $home/bin
   ch_install_file 755 $user:nogroup juju-environment $home/bin/
+  ch_install_file 755 $user:nogroup juju-service-started $home/bin/
 }
 
 update_charms_repo() {
@@ -28,7 +30,6 @@ update_charms_repo() {
     local juju_environments_file=$home/.juju/environments.yaml
     for release in `releases`; do
       mkdir -p $home/charms/$release
-      chown -Rf $user:nogroup $home
       sudo -HEsu $user charm getall $home/charms/$release
     done
   fi
@@ -50,6 +51,8 @@ configure_juju_environment() {
   fi
 
   generate_ssh_keys $user $home
+  chown -Rf $user:nogroup $home
+
 }
 
 install_juju_client() {
